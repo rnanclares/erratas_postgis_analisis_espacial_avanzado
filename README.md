@@ -21,5 +21,7 @@ where st_intersects(st_makevalid(s.geom), t.geom)) as tabla group by tipo;
 ```
 o arreglamos la geometría de la tabla
 
-```update suelos
-set geom = st_makevalid(geom)::geometry(multipolygon, 23030);```
+```sql
+update suelos
+set geom = st_makevalid(geom)::geometry(multipolygon, 23030);
+```
