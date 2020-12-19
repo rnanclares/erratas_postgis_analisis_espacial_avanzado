@@ -19,3 +19,7 @@ select geometrytype(geom) as tipo, count(*) from
 (Select st_intersection(st_makevalid(s.geom), t.geom) as geom from ttmm t, suelos s
 where st_intersects(st_makevalid(s.geom), t.geom)) as tabla group by tipo;
 ```
+o arreglamos la geometría de la tabla
+
+```update suelos
+set geom = st_makevalid(geom)::geometry(multipolygon, 23030);```
