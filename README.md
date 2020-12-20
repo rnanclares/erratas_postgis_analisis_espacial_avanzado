@@ -25,7 +25,7 @@ o arreglamos la geometría de la tabla
 update suelos
 set geom = st_makevalid(geom)::geometry(multipolygon, 23030);
 ```
-* Página 139: *Borrado en un solo paso* La query propuesta en este apartado está incompleta, el resultado de la query no contiene los polígonos que no cumplen la condición de st_relate('T&ast&ast&ast&ast&ast&ast&ast&ast').
+* Página 139: *Borrado en un solo paso* La query propuesta en este apartado está incompleta, el resultado de la query no contiene los polígonos que no cumplen la condición de st_relate('T&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;').
 
 ```sql
 insert into erase1b (tema, grupo, geom)
