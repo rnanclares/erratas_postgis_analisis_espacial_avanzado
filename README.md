@@ -25,3 +25,16 @@ o arreglamos la geometría de la tabla
 update suelos
 set geom = st_makevalid(geom)::geometry(multipolygon, 23030);
 ```
+* Página 139: *Borrado en un solo paso* La query propuesta en este apartado está incompleta, el resultado de la query no contiene los polígonos que no cumplen la condición de st_relate('T&ast&ast&ast&ast&ast&ast&ast&ast').
+
+```sql
+insert into erase1b (tema, grupo, geom)
+select tema, grupo, geom 
+from
+(select tema, grupo, count(n.gid) as numright, s.geom as geom_completo,
+ stx_extract(st_difference(s.geom,
+						  coalesce(st_union(n.geom), 'GEOMETRYCOLLECTION EMPTY'::geometry(geometry, 23030))), 2) as geom
+ from suelos s left join nucleos n
+ on s.geom && n.geom and st_relate(s.geom, n.geom, 'T********') group by s.gid
+) as tabla where (numright > 0 and geom is not null) or numright = 0;
+```
