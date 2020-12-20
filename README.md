@@ -47,7 +47,7 @@ select tema, grupo, geom
 from
 (select tema, grupo, count(n.gid) as numright, s.geom as geom_completo,
  st_multi(st_collectionextract(st_difference(s.geom,
-						  coalesce(st_union(n.geom))), 3)) as geom
+	coalesce(st_union(n.geom), 'GEOMETRYCOLLECTION EMPTY'::geometry(geometry, 23030))), 3)) as geom
  from suelos s left join nucleos n
  on s.geom && n.geom and st_relate(s.geom, n.geom, 'T********') group by s.gid
 ) as tabla where (numright > 0 and geom is not null) or numright = 0;
