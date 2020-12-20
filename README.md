@@ -38,3 +38,17 @@ from
  on s.geom && n.geom and st_relate(s.geom, n.geom, 'T********') group by s.gid
 ) as tabla where (numright > 0 and geom is not null) or numright = 0;
 ```
+
+Sin usar stx_extract()
+
+```sql
+insert into erase1b (tema, grupo, geom)
+select tema, grupo, geom 
+from
+(select tema, grupo, count(n.gid) as numright, s.geom as geom_completo,
+ st_multi(st_collectionextract(st_difference(s.geom,
+						  coalesce(st_union(n.geom))), 3)) as geom
+ from suelos s left join nucleos n
+ on s.geom && n.geom and st_relate(s.geom, n.geom, 'T********') group by s.gid
+) as tabla where (numright > 0 and geom is not null) or numright = 0;
+```
