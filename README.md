@@ -52,3 +52,34 @@ from
  on s.geom && n.geom and st_relate(s.geom, n.geom, 'T********') group by s.gid
 ) as tabla where (numright > 0 and geom is not null) or numright = 0;
 ```
+* Página 140 - Superposición(Overlay) - Ambas diferencias están incompletas
+
+```sql
+create table superpos1 (gid serial primary key, ine varchar, tema varchar, grupo varchar,
+						geom geometry(multipolygon, 23030));
+					   
+-- Diferencia (Suelos - Nucleos)
+insert into superpos1 (tema, grupo, geom)
+select tema, grupo, geom
+from
+(select tema, grupo, count(n.gid) as numright,
+ stx_extract(st_difference(s.geom, coalesce(st_union(n.geom), 'GEOMETRYCOLLECTION EMPTY'::geometry(geometry, 23030))), 2) as geom
+ from suelos s left join nucleos n on s.geom && n.geom and st_relate(s.geom, n.geom, 'T********') group by s.gid
+) as tabla where (numright > 0 and geom is not null) or numright = 0;
+
+-- Intersección Suelos Nucleos
+insert into superpos1 (ine, tema, grupo, geom)
+select n.ine, s.tema, s.grupo, stx_extract(st_intersection(n.geom, s.geom), 2)
+from nucleos n, suelos s
+where n.geom && s.geom and st_relate(n.geom, s.geom, 'T********');
+
+-- Diferencia (Nucleos - Suelos)
+
+insert into superpos1 (ine, geom)
+select ine, geom
+from
+(select ine, count(n.gid) as numright,
+ stx_extract(st_difference(n.geom, coalesce(st_union(s.geom), 'GEOMETRYCOLLECTION EMPTY'::geometry(geometry, 23030))), 2) as geom
+ from nucleos n left join suelos s on n.geom && s.geom and st_relate(n.geom, s.geom, 'T********') group by n.gid
+) as tabla where (numright > 0 and geom is not null) or numright = 0;
+```
