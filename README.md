@@ -1,4 +1,4 @@
-# Erratas del Libro Postgis: Análisis Espacial Avanzado
+# Erratas del Libro Postgis: Análisis Espacial Avanzado (Segunda Edición)
 Repositorio para registrar las erratas del libro Postgis: Análisis Espacial Avanzado. Segunda edición. La revisión se ha hecho usando Postgresql 13.1 y Postgis 3.0.3. 
 
 * Página 121: **Vistas como control dínamico de la calidad cartográfica**. La query hacer referencia a la tabla psuelos (la cual no tiene ninguna superposición) en lugar de la tabla suelos, ocurre en el libro y en el archivo `capb.sql`. Además en el cast de la geometría el SRID está equivocado debiendo ser 23030.
