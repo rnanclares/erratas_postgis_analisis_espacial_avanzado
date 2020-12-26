@@ -83,3 +83,14 @@ from
  from nucleos n left join suelos s on n.geom && s.geom and st_relate(n.geom, s.geom, 'T********') group by n.gid
 ) as tabla where (numright > 0 and geom is not null) or numright = 0;
 ```
+
+* Página 144 - Recorte en dos fases. La geometría está definidia como MULTIPOLYGON cuando obviamente el resultado del recorte es una geometría de tipo MULTILINESTRING.
+
+```sql
+drop table if exists viaria1 cascade;
+create table viaria1 (gid serial primary key, tipo integer, geom geometry(multilinestring, 23030));
+insert into viaria1 (tipo, geom)
+select v.tipo, stx_extract(st_intersection(v.geom, t.geom), 1) as geom
+from viariache v, ttmmdis t
+where v.geom && t.geom and st_relate(v.geom, t.geom, 'T********');
+```
