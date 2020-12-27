@@ -101,8 +101,8 @@ select numsegs, st_npoints(geom), st_area(geom)::numeric (10,2),
 	  (pi()*100*100+1000*200 - st_area(geom))::numeric(10,2) as error 
 	  from ( select st_buffer(geom, 100, numsegs), numsegs 
 			 from ( select 8 union 
-					select 32 union 
-					select 128
+				select 32 union 
+				select 128
 				   ) as tabla1(numsegs), 
 				  ( select st_geomfromtext ('LINESTRING (0 0, 1000 0)')
 				  ) as tabla (geom)
