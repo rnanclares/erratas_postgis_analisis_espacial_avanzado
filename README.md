@@ -94,3 +94,18 @@ select v.tipo, stx_extract(st_intersection(v.geom, t.geom), 1) as geom
 from viariache v, ttmmdis t
 where v.geom && t.geom and st_relate(v.geom, t.geom, 'T********');
 ```
+
+* Página 146 - Cálculo del error radial al usar St_Buffer para aproximar una curva. La consulta tiene un ```UNION``` después del ```select 128``` lo que impide que esta pueda ser ejecutada.
+```sql
+select numsegs, st_npoints(geom), st_area(geom)::numeric (10,2), 
+	  (pi()*100*100+1000*200 - st_area(geom))::numeric(10,2) as error 
+	  from ( select st_buffer(geom, 100, numsegs), numsegs 
+			 from ( select 8 union 
+					select 32 union 
+					select 128
+				   ) as tabla1(numsegs), 
+				  ( select st_geomfromtext ('LINESTRING (0 0, 1000 0)')
+				  ) as tabla (geom)
+		   ) as tabla2 (geom) order by numsegs;
+```
+		   
