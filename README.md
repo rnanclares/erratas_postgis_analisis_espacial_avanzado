@@ -95,7 +95,7 @@ from viariache v, ttmmdis t
 where v.geom && t.geom and st_relate(v.geom, t.geom, 'T********');
 ```
 
-* Página 146 - Cálculo del error radial al usar St_Buffer para aproximar una curva. La consulta tiene un ```UNION``` después del ```select 128``` lo que impide que esta pueda ser ejecutada.
+* Página 146 - Cálculo del error areal al usar St_Buffer para aproximar una curva. La consulta tiene un ```UNION``` después del ```select 128``` lo que impide que esta pueda ser ejecutada.
 ```sql
 select numsegs, st_npoints(geom), st_area(geom)::numeric (10,2), 
 	  (pi()*100*100+1000*200 - st_area(geom))::numeric(10,2) as error 
