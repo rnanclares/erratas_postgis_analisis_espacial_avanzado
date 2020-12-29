@@ -122,7 +122,7 @@ select m.gid as gida,
 from meteoche m
 order by gida;
 ```
-Usando el operador *<->* (que utiliza los índices espaciales cuando se usa en una claúsula `ORDER BY`) 
+Usando el operador `<->` (que utiliza los índices espaciales cuando se usa en una claúsula `ORDER BY`) 
 ```sql
 select m.gid as gida,
 	(select r.gid as gidb2
