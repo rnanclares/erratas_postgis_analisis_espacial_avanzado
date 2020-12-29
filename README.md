@@ -108,4 +108,28 @@ select numsegs, st_npoints(geom), st_area(geom)::numeric (10,2),
 				  ) as tabla (geom)
 		   ) as tabla2 (geom) order by numsegs;
 ```
+
+* Página 154 - 5.6 Vecinos más próximos a una capa (subconsultas correladas) - El ejemplo incluido en la página devuelve valores nulos en campo gidb
+
+Usando st_distance (muy lento)
+
+```sql
+select m.gid as gida,
+	(select r.gid as gidb
+	from riosche r
+	order by st_distance(m.geom,r.geom) limit 1
+	)
+from meteoche m
+order by gida;
+```
+Usando el operador *<->* (que utiliza los índices espaciales cuando se usa en una claúsula `ORDER BY`) 
+```sql
+select m.gid as gida,
+	(select r.gid as gidb2
+	from riosche r
+	order by m.geom <-> r.geom limit 1
+	)
+from meteoche m
+order by gida;
+```
 		   
