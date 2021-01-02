@@ -109,7 +109,7 @@ select numsegs, st_npoints(geom), st_area(geom)::numeric (10,2),
 		   ) as tabla2 (geom) order by numsegs;
 ```
 
-* Página 154 - 5.6 Vecinos más próximos a una capa (subconsultas correladas) - El ejemplo incluido en la página devuelve valores nulos en campo gidb
+* Página 153 - 5.6 Vecinos más próximos a una capa (subconsultas correladas) - El ejemplo incluido en la página devuelve valores nulos en campo gidb
 
 Usando st_distance (muy lento)
 
