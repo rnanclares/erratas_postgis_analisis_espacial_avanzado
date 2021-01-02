@@ -109,7 +109,19 @@ select numsegs, st_npoints(geom), st_area(geom)::numeric (10,2),
 		   ) as tabla2 (geom) order by numsegs;
 ```
 
-* Página 153 - 5.6 Vecinos más próximos a una capa (subconsultas correladas) - El ejemplo incluido en la página devuelve valores nulos en campo gidb
+* Página 153 - 5.6 Vecinos más próximos a una capa (subconsultas correladas) - El ejemplo incluido en la página devuelve valores nulos en campo gidb. En realidad no es una errata simplemente se muestran los gid de todas las estaciones y por eso aparenta que la query. Podemos corregirlo con la recomendación que viene en el libro.
+```sql
+select * from (select m.gid as gida,
+(select r.gid as gidb
+	from riosche r
+where st_dwithin(r.geom, m.geom, 100)
+order by st_distance(r.geom, m.geom) limit 1
+ )
+ from meteoche m
+ order by gida) t
+ where gidb is not null;
+ ```
+ Eliminando la restricción de que los ríos tienen que estar a menos de 100 metros podemos usar las siguientes consultas:
 
 Usando st_distance (muy lento)
 
