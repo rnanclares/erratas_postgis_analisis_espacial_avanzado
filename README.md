@@ -151,9 +151,9 @@ order by gida;
 select m.gid as gida, tabla.gidb, tabla.distance, indice
 from meteoche m, lateral 
 (select r.gid as gidb, st_distance(r.geom, m.geom) as distance,
-row_number() over () as indice
-from riosche r
-order by m.geom <-> r.geom limit 5
+	row_number() over () as indice
+	from riosche r
+	order by m.geom <-> r.geom limit 5
 ) as tabla
 order by gida;
 ```
