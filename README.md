@@ -145,3 +145,15 @@ from meteoche m
 order by gida;
 ```
 		   
+* Página 159 - 5.9 Vecinos más próximos con operadores knn - El ejemplo propuesto no tiene en cuenta que la tabla ha sido modificada en un anterior ejercicio y ya contiene las columnas gidb y distance por lo que hay que modificar ligeramente la consulta.
+
+```sql
+select m.gid as gida, tabla.gidb, tabla.distance, indice
+from meteoche m, lateral 
+(select r.gid as gidb, st_distance(r.geom, m.geom) as distance,
+row_number() over () as indice
+from riosche r
+order by m.geom <-> r.geom limit 5
+) as tabla
+order by gida;
+```
