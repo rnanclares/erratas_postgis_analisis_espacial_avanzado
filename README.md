@@ -109,7 +109,7 @@ select numsegs, st_npoints(geom), st_area(geom)::numeric (10,2),
 		   ) as tabla2 (geom) order by numsegs;
 ```
 
-* Página 153 - 5.6 Vecinos más próximos a una capa (subconsultas correladas) - El ejemplo incluido en la página devuelve valores nulos en campo gidb. En realidad no es una errata simplemente se muestran los gid de todas las estaciones y por eso aparenta que la query. Podemos corregirlo con la recomendación que viene en el libro.
+* Página 153 - 5.6 Vecinos más próximos a una capa (subconsultas correladas) - El ejemplo incluido en la página devuelve valores nulos en campo gidb. En realidad no es una errata simplemente se muestran los gid de todas las estaciones y por eso aparenta que la query no es correcta. Podemos corregirlo con la recomendación que viene en el libro que nos permite filtrar los resultados en los que gidb es nulo.
 ```sql
 select * from (select m.gid as gida,
 (select r.gid as gidb
